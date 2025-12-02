@@ -87,19 +87,20 @@ export default {
   		},
   		fontFamily: {
   			sans: [
-  				'Roboto',
+  				'Lato',
   				'ui-sans-serif',
   				'system-ui',
   				'-apple-system',
   				'BlinkMacSystemFont',
   				'Segoe UI',
+  				'Roboto',
   				'Helvetica Neue',
   				'Arial',
   				'Noto Sans',
   				'sans-serif'
   			],
   			mono: [
-  				'Roboto Mono',
+  				'Fira Code',
   				'ui-monospace',
   				'SFMono-Regular',
   				'Menlo',
@@ -110,7 +111,7 @@ export default {
   				'monospace'
   			],
   			serif: [
-  				'Libre Caslon Text',
+  				'EB Garamond',
   				'ui-serif',
   				'Georgia',
   				'Cambria',
