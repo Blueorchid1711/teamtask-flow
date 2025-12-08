@@ -81,19 +81,19 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-primary/10 via-background to-secondary/10 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="flex items-center justify-center gap-3 mb-8">
-          <div className="p-3 border-2 border-foreground shadow-md bg-background">
-            <CheckSquare className="w-8 h-8" />
+          <div className="p-3 bg-primary rounded-lg shadow-lg">
+            <CheckSquare className="w-8 h-8 text-primary-foreground" />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight">TaskFlow</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">TaskFlow</h1>
         </div>
 
-        <Card className="border-2 border-foreground shadow-md">
-          <CardHeader className="border-b-2 border-foreground">
+        <Card className="border-0 shadow-2xl bg-card">
+          <CardHeader className="bg-primary text-primary-foreground rounded-t-lg">
             <CardTitle className="text-2xl">{isLogin ? 'Sign In' : 'Create Account'}</CardTitle>
-            <CardDescription>
+            <CardDescription className="text-primary-foreground/80">
               {isLogin 
                 ? 'Enter your credentials to access your tasks' 
                 : 'Set up your account to start managing tasks'}
@@ -110,7 +110,7 @@ export default function Auth() {
                     placeholder="John Doe"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="border-2 border-foreground"
+                    className="border border-input focus:border-primary"
                     required
                   />
                 </div>
@@ -124,7 +124,7 @@ export default function Auth() {
                   placeholder="you@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="border-2 border-foreground"
+                  className="border border-input focus:border-primary"
                   required
                 />
               </div>
@@ -137,7 +137,7 @@ export default function Auth() {
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="border-2 border-foreground"
+                  className="border border-input focus:border-primary"
                   required
                 />
               </div>
@@ -146,10 +146,10 @@ export default function Auth() {
                 <div className="space-y-2">
                   <Label htmlFor="role">Role</Label>
                   <Select value={role} onValueChange={(v) => setRole(v as AppRole)}>
-                    <SelectTrigger className="border-2 border-foreground">
+                    <SelectTrigger className="border border-input focus:border-primary">
                       <SelectValue placeholder="Select your role" />
                     </SelectTrigger>
-                    <SelectContent className="border-2 border-foreground">
+                    <SelectContent className="border-0 shadow-lg">
                       <SelectItem value="admin">
                         <div className="flex items-center gap-2">
                           {roleIcons.admin}
@@ -175,7 +175,7 @@ export default function Auth() {
 
               <Button 
                 type="submit" 
-                className="w-full border-2 border-foreground shadow-sm hover:shadow-md transition-shadow"
+                className="w-full font-semibold shadow-lg hover:shadow-xl transition-shadow"
                 disabled={loading}
               >
                 {loading ? 'Please wait...' : isLogin ? 'Sign In' : 'Create Account'}
@@ -186,7 +186,7 @@ export default function Auth() {
               <button
                 type="button"
                 onClick={() => setIsLogin(!isLogin)}
-                className="text-muted-foreground hover:text-foreground underline transition-colors"
+                className="text-primary hover:text-primary/80 font-medium transition-colors"
               >
                 {isLogin ? "Don't have an account? Sign up" : 'Already have an account? Sign in'}
               </button>

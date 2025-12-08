@@ -112,25 +112,19 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="animate-pulse text-xl font-mono">Loading...</div>
+        <div className="animate-pulse text-xl text-foreground">Loading...</div>
       </div>
     );
   }
 
-  // Filter tasks for chart (only employees, not managers)
-  const employeeTasks = tasks.filter(task => {
-    // In a real app, you'd check the user's role, but for now we show all
-    return true;
-  });
-
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b-2 border-foreground bg-background sticky top-0 z-10">
+    <div className="min-h-screen bg-muted/30">
+      {/* Header - Corporate Style */}
+      <header className="bg-primary text-primary-foreground sticky top-0 z-50 shadow-lg">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 border-2 border-foreground shadow-xs bg-background">
+              <div className="p-2 bg-primary-foreground/10 rounded-lg">
                 <CheckSquare className="w-6 h-6" />
               </div>
               <h1 className="text-2xl font-bold tracking-tight">TaskFlow</h1>
@@ -138,15 +132,15 @@ export default function Dashboard() {
 
             <div className="flex items-center gap-4">
               {role && (
-                <Badge variant="outline" className="border-2 border-foreground px-3 py-1 gap-2">
+                <Badge className="bg-secondary text-secondary-foreground px-3 py-1 gap-2 font-semibold">
                   {roleIcons[role]}
                   {roleLabels[role]}
                 </Badge>
               )}
               <Button 
-                variant="outline" 
+                variant="secondary"
                 onClick={handleSignOut}
-                className="border-2 border-foreground shadow-xs hover:shadow-sm"
+                className="font-semibold"
               >
                 <LogOut className="w-4 h-4 mr-2" />
                 Sign Out
@@ -161,8 +155,8 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Stats Section */}
           <div className="lg:col-span-1">
-            <Card className="border-2 border-foreground shadow-sm">
-              <CardHeader className="border-b-2 border-foreground">
+            <Card className="border-0 shadow-lg bg-card">
+              <CardHeader className="bg-primary text-primary-foreground rounded-t-lg">
                 <CardTitle className="flex items-center gap-2">
                   <LayoutDashboard className="w-5 h-5" />
                   Task Statistics
@@ -176,8 +170,8 @@ export default function Dashboard() {
 
           {/* Tasks Section */}
           <div className="lg:col-span-2">
-            <Card className="border-2 border-foreground shadow-sm">
-              <CardHeader className="border-b-2 border-foreground">
+            <Card className="border-0 shadow-lg bg-card">
+              <CardHeader className="bg-primary text-primary-foreground rounded-t-lg">
                 <div className="flex items-center justify-between">
                   <CardTitle className="flex items-center gap-2">
                     <CheckSquare className="w-5 h-5" />
@@ -186,16 +180,17 @@ export default function Dashboard() {
                   <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
                     <DialogTrigger asChild>
                       <Button 
+                        variant="secondary"
                         onClick={() => setEditingTask(null)}
-                        className="border-2 border-foreground shadow-xs hover:shadow-sm"
+                        className="font-semibold"
                       >
                         <Plus className="w-4 h-4 mr-2" />
                         Add Task
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="border-2 border-foreground max-w-2xl">
-                      <DialogHeader className="border-b-2 border-foreground pb-4">
-                        <DialogTitle>
+                    <DialogContent className="border-0 shadow-2xl max-w-2xl">
+                      <DialogHeader className="bg-primary text-primary-foreground -mx-6 -mt-6 px-6 py-4 rounded-t-lg">
+                        <DialogTitle className="text-primary-foreground">
                           {editingTask ? 'Edit Task' : 'Create New Task'}
                         </DialogTitle>
                       </DialogHeader>
@@ -226,6 +221,13 @@ export default function Dashboard() {
           </div>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="bg-primary text-primary-foreground py-6 mt-12">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-sm opacity-80">© 2024 TaskFlow. Professional Task Management System.</p>
+        </div>
+      </footer>
     </div>
   );
 }
