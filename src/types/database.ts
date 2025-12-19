@@ -1,5 +1,6 @@
 export type AppRole = 'admin' | 'manager' | 'employee';
 export type TaskStatus = 'pending' | 'in_progress' | 'completed' | 'overdue';
+export type TaskPriority = 'low' | 'medium' | 'high';
 
 export interface Profile {
   id: string;
@@ -21,6 +22,7 @@ export interface Task {
   title: string;
   description: string | null;
   status: TaskStatus;
+  priority: TaskPriority;
   deadline: string;
   completed_at: string | null;
   created_at: string;
