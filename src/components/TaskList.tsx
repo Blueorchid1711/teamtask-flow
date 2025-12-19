@@ -3,7 +3,7 @@ import { Task, AppRole } from '@/types/database';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { format, isPast, isToday } from 'date-fns';
-import { Edit, Trash2, Clock, CheckCircle, AlertTriangle, PlayCircle, MessageSquare } from 'lucide-react';
+import { Edit, Trash2, Clock, CheckCircle, AlertTriangle, PlayCircle, MessageSquare, Flag } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { TaskDetailDialog } from './TaskDetailDialog';
@@ -67,6 +67,18 @@ export function TaskList({ tasks, loading, onEdit, canEdit, onRefresh, currentUs
     return task.status !== 'completed' && isPast(new Date(task.deadline)) && !isToday(new Date(task.deadline));
   };
 
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case 'high': return 'text-destructive';
+      case 'medium': return 'text-secondary-foreground';
+      default: return 'text-muted-foreground';
+    }
+  };
+
+  const getPriorityLabel = (priority: string) => {
+    return priority.charAt(0).toUpperCase() + priority.slice(1);
+  };
+
   if (loading) {
     return (
       <div className="space-y-4">
@@ -128,6 +140,11 @@ export function TaskList({ tasks, loading, onEdit, canEdit, onRefresh, currentUs
                       {getStatusIcon(overdue ? 'overdue' : task.status)}
                       {overdue ? 'Overdue' : task.status.replace('_', ' ')}
                     </Badge>
+                    
+                    <span className={`text-xs flex items-center gap-1 ${getPriorityColor(task.priority)}`}>
+                      <Flag className="w-3 h-3" />
+                      {getPriorityLabel(task.priority)}
+                    </span>
                     
                     <span className="text-xs text-muted-foreground flex items-center gap-1">
                       <Clock className="w-3 h-3" />

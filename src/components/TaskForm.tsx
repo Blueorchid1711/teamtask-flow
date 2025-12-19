@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Task, TaskStatus } from '@/types/database';
+import { Task, TaskStatus, TaskPriority } from '@/types/database';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
-import { Upload, X, FileText, Image, File } from 'lucide-react';
+import { Upload, X, FileText, Image, File, Flag } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface TaskFormProps {
@@ -22,6 +22,7 @@ export function TaskForm({ task, onSuccess, onCancel }: TaskFormProps) {
   const [title, setTitle] = useState(task?.title || '');
   const [description, setDescription] = useState(task?.description || '');
   const [status, setStatus] = useState<TaskStatus>(task?.status || 'pending');
+  const [priority, setPriority] = useState<TaskPriority>(task?.priority || 'medium');
   const [deadline, setDeadline] = useState(
     task?.deadline 
       ? format(new Date(task.deadline), "yyyy-MM-dd'T'HH:mm")
@@ -95,6 +96,7 @@ export function TaskForm({ task, onSuccess, onCancel }: TaskFormProps) {
             title: title.trim(),
             description: description.trim() || null,
             status,
+            priority,
             deadline: new Date(deadline).toISOString(),
             completed_at: status === 'completed' ? new Date().toISOString() : null,
           })
@@ -118,6 +120,7 @@ export function TaskForm({ task, onSuccess, onCancel }: TaskFormProps) {
             title: title.trim(),
             description: description.trim() || null,
             status,
+            priority,
             deadline: new Date(deadline).toISOString(),
           })
           .select()
@@ -184,16 +187,42 @@ export function TaskForm({ task, onSuccess, onCancel }: TaskFormProps) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="deadline">Deadline</Label>
-          <Input
-            id="deadline"
-            type="datetime-local"
-            value={deadline}
-            onChange={(e) => setDeadline(e.target.value)}
-            className="border-2 border-foreground"
-            required
-          />
+          <Label htmlFor="priority">Priority</Label>
+          <Select value={priority} onValueChange={(v) => setPriority(v as TaskPriority)}>
+            <SelectTrigger className="border-2 border-foreground">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="border-2 border-foreground">
+              <SelectItem value="low">
+                <span className="flex items-center gap-2">
+                  <Flag className="w-3 h-3 text-muted-foreground" /> Low
+                </span>
+              </SelectItem>
+              <SelectItem value="medium">
+                <span className="flex items-center gap-2">
+                  <Flag className="w-3 h-3 text-secondary-foreground" /> Medium
+                </span>
+              </SelectItem>
+              <SelectItem value="high">
+                <span className="flex items-center gap-2">
+                  <Flag className="w-3 h-3 text-destructive" /> High
+                </span>
+              </SelectItem>
+            </SelectContent>
+          </Select>
         </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="deadline">Deadline</Label>
+        <Input
+          id="deadline"
+          type="datetime-local"
+          value={deadline}
+          onChange={(e) => setDeadline(e.target.value)}
+          className="border-2 border-foreground"
+          required
+        />
       </div>
 
       {/* File Upload */}
